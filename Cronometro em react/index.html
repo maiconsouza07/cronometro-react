@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronômetro</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 50px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+    #display {
+        font-size: 2em;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 200px;
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div id="display">00:00:00</div>
+</div>
+<div class="container">
+    <button id="startStop" onclick="startStop()">Iniciar</button>
+    <button id="reset" onclick="reset()">Zerar</button>
+</div>
+
+<script>
+let timer;
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+
+function startStop() {
+    if (!timer) {
+        timer = setInterval(updateTime, 1000);
+        document.getElementById('startStop').textContent = 'Parar';
+    } else {
+        clearInterval(timer);
+        timer = null;
+        document.getElementById('startStop').textContent = 'Iniciar';
+    }
+}
+
+function reset() {
+    clearInterval(timer);
+    timer = null;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    document.getElementById('display').textContent = '00:00:00';
+    document.getElementById('startStop').textContent = 'Iniciar';
+}
+
+function updateTime() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    let displayString = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+    document.getElementById('display').textContent = displayString;
+}
+
+function pad(number) {
+    return (number < 10 ? '0' : '') + number;
+}
+</script>
+</body>
+</html>
